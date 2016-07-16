@@ -55,7 +55,6 @@ app.post('/verify', function(req, res) {
   if (code === secrets.passcode) {
     req.session.id = crypto.randomBytes(64).toString('hex');
     validSessions.push(req.session.id);
-    console.log(validSessions);
 
     res.send({
       verified: true,
