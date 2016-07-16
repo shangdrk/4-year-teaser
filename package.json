@@ -1,0 +1,25 @@
+{
+  "name": "4-year-teaser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shangdrk/4-year-teaser.git"
+  },
+  "author": "shangd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shangdrk/4-year-teaser/issues"
+  },
+  "homepage": "https://github.com/shangdrk/4-year-teaser#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-session": "^2.0.0-alpha.1",
+    "express": "^4.14.0",
+    "nodemon": "^1.9.2"
+  }
+}

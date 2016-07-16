@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Please verify</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css"/>
+    <script src="assets/js/jquery-2.2.4.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var handleFormSubmit = function() {
+        var data = {
+          code: $('#code-input').val()
+        };
+        $.ajax({
+          type: 'POST',
+          url: '/verify',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+        }).done(function(response) {
+          if (response.verified) {
+            window.location = '/';
+          } else {
+            $('<p>' + response.msg + '</p>').prependTo('body');
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <form action="javascript:handleFormSubmit();">
+        <input type="text" id="code-input" />
+        <button type="submit">Verify</button>
+      </form>
+    </div>
+  </body>
+</html>
