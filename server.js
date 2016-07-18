@@ -9,6 +9,8 @@ var secrets = require('./secrets');
 
 var app = express();
 
+process.env.MODE = 'development';
+
 var validSessions = [];
 var authenticate = function(req, res, next) {
   if (req.session.id && validSessions.indexOf(req.session.id) !== -1) {
@@ -36,7 +38,10 @@ app.use(cookieSession({
   name: 'session',
   keys: [secrets.sessionKey],
 }));
-app.use(authenticate);
+
+if (process.env.MODE !== 'development') {
+  app.use(authenticate);
+}
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '/assets/index.html'));

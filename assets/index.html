@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Zor(anD)erek!</title>
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/jquery-sakura.min.css"/>
     <script src="assets/js/jquery-2.2.4.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/react.min.js"></script>
@@ -14,6 +15,22 @@
   </head>
   <body>
     <div id="content"></div>
-    <script type="text/babel" src="components/App.jsx"></script>
+    <script src="components/app.bundle.js" charset="utf-8"></script>
+    <script src="assets/js/jquery-sakura.min.js"></script>
+    <script>
+      // domReady
+      $(function() {
+        $.fn.sakura();
+      });
+
+      // windowLoad
+      $(window).load(function() {
+        $.fn.sakura({
+          maxSize: 16,
+          minSize: 10,
+          newOn: 300
+        });
+      });
+</script>
   </body>
 </html>

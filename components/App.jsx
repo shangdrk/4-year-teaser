@@ -1,24 +1,28 @@
-var App = React.createClass({
-  getInitialState: function() {
-    return {
+import React, { Component } from 'react';
+
+import Greeting from './Greeting';
+
+class App extends Component {
+  static propTypes = {
+
+  };
+
+  constructor() {
+    super();
+
+    this.state = {
 
     };
-  },
+  }
 
-  render: function() {
+  render() {
     return (
-      <div>
-        <div id="intro" className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <h1>Welcome~</h1>
-            </div>
-          </div>
-        </div>
+      <div className="container">
+        <Greeting />
       </div>
     );
   }
-});
+}
 
 ReactDOM.render(
   <App name="World" />,

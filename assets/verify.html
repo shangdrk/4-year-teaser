@@ -6,12 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Please verify</title>
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css"/>
+    <style type="text/css">
+      .vcenter {
+        display: inline-block;
+        vertical-align: middle;
+        float: none;
+      }
+    </style>
     <script src="assets/js/jquery-2.2.4.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script type="text/javascript">
       var handleFormSubmit = function() {
+        var code = $('#code-input').val();
+        if (!code) {
+          $('<p>' + response.msg + '</p>').prependTo('body');
+        }
+
         var data = {
-          code: $('#code-input').val()
+          code: code
         };
         $.ajax({
           type: 'POST',
@@ -21,18 +33,30 @@
         }).done(function(response) {
           if (response.verified) {
             window.location = '/';
-          } else {
-            $('<p>' + response.msg + '</p>').prependTo('body');
+          } else if (!$('.alert').length) {
+            $('<div class="alert alert-danger" role="alert">' +
+              '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> ' +
+              response.msg + '</div>').prependTo('.row');
           }
         });
       }
     </script>
   </head>
   <body>
-    <div class="container">
-      <form action="javascript:handleFormSubmit();">
-        <input type="text" id="code-input" />
-        <button type="submit">Verify</button>
+    <div class="container" style="padding: 18% 18% 18% 18%">
+      <form class="form" action="javascript:handleFormSubmit();">
+        <div class="row">
+          <div class="col-xs-10">
+            <input
+              class="form-control"
+              type="password"
+              id="code-input"
+              placeholder="Please enter verification code" />
+          </div>
+          <div class="col-xs-2" style="padding-left: 0px;">
+            <button class="btn btn-primary form-control" type="submit">Verify</button>
+          </div>
+        </div>
       </form>
     </div>
   </body>
