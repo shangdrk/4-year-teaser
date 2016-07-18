@@ -1,11 +1,11 @@
 {
   "name": "4-year-teaser",
   "version": "1.0.0",
-  "description": "",
+  "description": "A loving anniversary teaser website for Zora",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "dev": "webpack && node server.js"
+    "dev": "webpack --progress --colors --watch & node server.js"
   },
   "repository": {
     "type": "git",

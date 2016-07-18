@@ -56,6 +56,10 @@
 
 	var _Greeting2 = _interopRequireDefault(_Greeting);
 
+	var _Quiz = __webpack_require__(34);
+
+	var _Quiz2 = _interopRequireDefault(_Quiz);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -64,15 +68,45 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var App = function (_React$Component) {
-	  _inherits(App, _React$Component);
+	var App = function (_Component) {
+	  _inherits(App, _Component);
 
 	  function App() {
 	    _classCallCheck(this, App);
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
 
-	    _this.state = {};
+	    _this.handleSectionChange = function (section) {
+	      return function (e) {
+	        _this.setState({ section: section });
+	      };
+	    };
+
+	    _this.sectionToReactComponent = function () {
+	      var props = void 0;
+
+	      switch (_this.state.section) {
+	        case 'Greeting':
+	          props = {
+	            onSectionChange: _this.handleSectionChange
+	          };
+	          return _react2.default.createElement(_Greeting2.default, props);
+	        case 'Quiz':
+	          props = {
+	            onSectionChange: _this.handleSectionChange
+	          };
+	          return _react2.default.createElement(_Quiz2.default, props);
+	        default:
+	          props = {
+	            onSectionChange: _this.handleSectionChange
+	          };
+	          return _react2.default.createElement(_Greeting2.default, props);
+	      }
+	    };
+
+	    _this.state = {
+	      section: 'Greeting'
+	    };
 	    return _this;
 	  }
 
@@ -82,31 +116,17 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
-	        _react2.default.createElement(_Greeting2.default, null)
+	        this.sectionToReactComponent()
 	      );
 	    }
 	  }]);
 
 	  return App;
-	}(_react2.default.Component);
-
-	// var App = React.createClass({
-	//   getInitialState: function() {
-	//     return {
-
-	//     };
-	//   },
-
-	//   render: function() {
-	//     return (
-	//       <div className="container">
-	//         <Greeting />
-	//       </div>
-	//     );
-	//   }
-	// });
+	}(_react.Component);
 
 	App.propTypes = {};
+
+
 	ReactDOM.render(_react2.default.createElement(App, { name: 'World' }), document.getElementById('content'));
 
 /***/ },
@@ -4067,14 +4087,29 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "div",
-	        { className: "row" },
+	        null,
 	        _react2.default.createElement(
 	          "div",
-	          { className: "col-md-12" },
+	          { className: "row" },
 	          _react2.default.createElement(
-	            "h1",
-	            { className: "text-center" },
-	            "🎉Happy 4th Year Anniversary!🎉"
+	            "div",
+	            { className: "col-md-12" },
+	            _react2.default.createElement(
+	              "h1",
+	              { className: "text-center" },
+	              "🎉Happy 4 Year Anniversary!🎉"
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          null,
+	          _react2.default.createElement(
+	            "button",
+	            {
+	              className: "btn btn-primary",
+	              onClick: this.props.onSectionChange('Quiz') },
+	            "Unwrap Derek's gift :)"
 	          )
 	        )
 	      );
@@ -4084,27 +4119,65 @@
 	  return Greeting;
 	}(_react.Component);
 
-	// var Greeting = React.createClass({
-	//   getInitialState: function() {
-	//     return {
-
-	//     };
-	//   },
-
-	//   render: function() {
-	//     return (
-	//       <div className="row">
-	//         <div className="col-md-12">
-	//           <h1 className="text-center">🎉Happy 4 Year Anniversary!🎉</h1>
-	//         </div>
-	//       </div>
-	//     );
-	//   }
-	// });
-
-
-	Greeting.propTypes = {};
+	Greeting.propTypes = {
+	  onSectionChange: _react2.default.PropTypes.func.isRequired
+	};
 	exports.default = Greeting;
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Quiz = function (_Component) {
+	  _inherits(Quiz, _Component);
+
+	  function Quiz() {
+	    _classCallCheck(this, Quiz);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Quiz).call(this));
+
+	    _this.state = {};
+	    return _this;
+	  }
+
+	  _createClass(Quiz, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'Quiz'
+	      );
+	    }
+	  }]);
+
+	  return Quiz;
+	}(_react.Component);
+
+	Quiz.propTypes = {
+	  onSectionChange: _react2.default.PropTypes.func.isRequired
+	};
+	exports.default = Quiz;
 
 /***/ }
 /******/ ]);

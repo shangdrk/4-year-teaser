@@ -72,4 +72,6 @@ app.post('/verify', function(req, res) {
   }
 });
 
-app.listen(8000);
+app.listen(8000, function() {
+  console.log('server starts listening to port 8000...');
+});
