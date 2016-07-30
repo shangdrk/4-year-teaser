@@ -5,6 +5,8 @@ var cookieSession = require('cookie-session');
 var crypto = require('crypto');
 var express = require('express');
 var path = require('path');
+
+var db = require('./database');
 var secrets = require('./secrets');
 
 var app = express();
@@ -25,7 +27,7 @@ var authenticate = function(req, res, next) {
     } else if (req.url === '/verify' || req.url === '/favicon.ico') {
       next();
     } else {
-      res.status(401).send("Permission denied. Please verify your identity first.");
+      res.status(401).send('Permission denied. Please verify your identity first.');
     }
   }
 };
@@ -49,7 +51,7 @@ app.get('/', function(req, res) {
 
 app.get('/favicon.ico', function(req, res) {
   res.sendFile(path.join(__dirname, '/assets/images/favicon.ico'));
-})
+});
 
 app.get('/verify', function(req, res) {
   res.sendFile(path.join(__dirname, '/assets/verify.html'));
@@ -73,5 +75,6 @@ app.post('/verify', function(req, res) {
 });
 
 app.listen(8000, function() {
+  db.initClient();
   console.log('server starts listening to port 8000...');
 });
