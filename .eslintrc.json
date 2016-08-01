@@ -25,6 +25,10 @@
         "SwitchCase": 1
       }
     ],
+    "comma-dangle": [
+      2,
+      "always-multiline"
+    ],
     "linebreak-style": [
       "error",
       "unix"

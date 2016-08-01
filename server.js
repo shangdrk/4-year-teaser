@@ -69,7 +69,7 @@ app.post('/verify', function(req, res) {
   } else {
     res.send({
       verified: false,
-      msg: 'The verification failed!'
+      msg: 'The verification failed!',
     });
   }
 });
