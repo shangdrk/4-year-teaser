@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/shangdrk/4-year-teaser#readme",
   "dependencies": {
+    "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
-    "connect-redis": "^3.1.0",
     "cookie-session": "^2.0.0-alpha.1",
     "express": "^4.14.0",
     "react": "^15.2.1",

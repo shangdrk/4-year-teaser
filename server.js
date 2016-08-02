@@ -6,6 +6,7 @@ var crypto = require('crypto');
 var express = require('express');
 var path = require('path');
 
+var couponAPI = require('./api/coupon');
 var db = require('./database');
 var secrets = require('./secrets');
 
@@ -72,6 +73,10 @@ app.post('/verify', function(req, res) {
       msg: 'The verification failed!',
     });
   }
+});
+
+app.post('/api/coupon/build', function(req, res) {
+  var username = req.body.username;
 });
 
 app.listen(8000, function() {

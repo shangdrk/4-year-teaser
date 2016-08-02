@@ -1,7 +1,10 @@
 'use strict';
 
+var Promise = require('bluebird');
 var redis = require('redis');
 var password = require('./secretes').redis_password;
+
+Promise.promisifyAll(redis.RedisClient.prototype);
 
 var client;
 module.exports.initClient = function() {
