@@ -19,5 +19,9 @@ module.exports.initClient = function() {
 };
 
 module.exports.db = function() {
-  return client;
+  if (client) {
+    return client;
+  } else {
+    throw new Error('Database has not been connected yet');
+  }
 };
