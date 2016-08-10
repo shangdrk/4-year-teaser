@@ -1,21 +1,19 @@
-'use strict';
+import bodyParser from 'body-parser';
+import cookieSession from 'cookie-session';
+import crypto from 'crypto';
+import express from 'express';
+import path from 'path';
 
-var bodyParser = require('body-parser');
-var cookieSession = require('cookie-session');
-var crypto = require('crypto');
-var express = require('express');
-var path = require('path');
+import * as couponAPI from './api/coupon';
+import * as db from './database';
+import secrets from './secrets';
 
-var couponAPI = require('./api/coupon');
-var db = require('./database');
-var secrets = require('./secrets');
-
-var app = express();
+let app = express();
 
 process.env.MODE = 'development';
 
-var validSessions = [];
-var authenticate = function(req, res, next) {
+let validSessions = [];
+const authenticate = (req, res, next) => {
   if (req.session.id && validSessions.indexOf(req.session.id) !== -1) {
     if (req.url === '/verify') {
       res.redirect('/');
@@ -33,8 +31,8 @@ var authenticate = function(req, res, next) {
   }
 };
 
-app.use('/assets', express.static('assets'));
-app.use('/components', express.static('components'));
+app.use('/assets', express.static(`${__dirname}/assets`));
+app.use('/components', express.static(`${__dirname}/components`));
 
 app.use(bodyParser.json());
 app.use(cookieSession({
@@ -46,20 +44,20 @@ if (process.env.MODE !== 'development') {
   app.use(authenticate);
 }
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/assets/index.html'));
 });
 
-app.get('/favicon.ico', function(req, res) {
+app.get('/favicon.ico', (req, res) => {
   res.sendFile(path.join(__dirname, '/assets/images/favicon.ico'));
 });
 
-app.get('/verify', function(req, res) {
+app.get('/verify', (req, res) => {
   res.sendFile(path.join(__dirname, '/assets/verify.html'));
 });
 
-app.post('/verify', function(req, res) {
-  var code = req.body.code;
+app.post('/verify', (req, res) => {
+  const code = req.body.code;
   if (code === secrets.passcode) {
     req.session.id = crypto.randomBytes(64).toString('hex');
     validSessions.push(req.session.id);
@@ -75,11 +73,11 @@ app.post('/verify', function(req, res) {
   }
 });
 
-app.post('/api/coupon/build', function(req, res) {
-  var username = req.body.username;
+app.post('/api/coupon/build', (req, res) => {
+  const username = req.body.username;
 });
 
-app.listen(8000, function() {
+app.listen(8000, () => {
   db.initClient();
   console.log('server starts listening to port 8000...');
 });

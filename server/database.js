@@ -1,30 +1,30 @@
-'use strict';
+import Promise from 'bluebird';
+import redis from 'redis';
+import secrets from './secrets';
 
-var Promise = require('bluebird');
-var redis = require('redis');
-var password = require('./secretes').redis_password;
+const password = secrets.redis_password;
 
 Promise.promisifyAll(redis.RedisClient.prototype);
 
-var client;
-module.exports.initClient = function() {
+let client;
+export function initClient() {
   if (client) return;
   client = redis.createClient(6379);
   client.auth(password);
 
-  client.on('ready', function() {
+  client.on('ready', () => {
     console.log('connects to redis server');
   });
 
-  client.on('end', function() {
+  client.on('end', () => {
     console.log('connection to redis server is ended');
   });
-};
+}
 
-module.exports.db = function() {
+export function db() {
   if (client) {
     return client;
   } else {
     throw new Error('Database has not been connected yet');
   }
-};
+}

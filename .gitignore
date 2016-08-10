@@ -1,3 +1,4 @@
+build/
 node_modules/
 secrets.js
-api/coupons-all.js
+server/api/coupons-all.json
