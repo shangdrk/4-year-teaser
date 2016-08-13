@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
+import store from '../redux/store';
 import Greeting from './Greeting';
 import Quiz from './Quiz';
 
-class App extends Component {
+export class App extends Component {
   static propTypes = {
 
   };
@@ -55,6 +57,8 @@ class App extends Component {
 }
 
 ReactDOM.render(
-  <App name="World" />,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('content')
 );
