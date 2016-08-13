@@ -12,8 +12,12 @@ gulp.task('dev-server', ['build', 'launch-dev-server'], function() {
   gulp.watch(['server/**/*'], ['launch-dev-server']);
 });
 
+let node;
 gulp.task('launch-dev-server', ['build-server'], function() {
-  var node = spawn('node', ['build/server.js']);
+  if (node) {
+    node.kill();
+  }
+  node = spawn('node', ['build/server.js']);
 
   node.stdout.on('data', function(data) {
     process.stdout.write(data.toString());

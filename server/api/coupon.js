@@ -1,53 +1,65 @@
 import { db } from '../database';
-import coupons from './coupons-all';
+import coupons from './coupons-data';
 
-export function build(username) {
-  if (db().sismemberAsync('user.username', username)) return;
+export async function build(username) {
+  const userAlreadyExists = await db().sismemberAsync('user.username', username);
+  if (userAlreadyExists) return;
 
-  const id = db().incrAsync('user.length');
-  db().saddAsync('user.username', username);
-  db().hsetAsync(`user:${username}`, 'id', id);
+  const id = await db().incrAsync('user.length');
 
-  buildDefault(username);
+  return db().saddAsync('user.username', username)
+  .then(() => db().hsetAsync(`user:${username}`, 'id', id))
+  .then(() => buildDefault(username))
+  .then(() => getAll(username));
 }
 
-export function buildLimited(username) {
-  if (!db().sismemberAsync('user.username', username)) return;
-  if (db().hgetAsync(`user:${username}`, 'buildComplete')) return;
+export async function buildLimited(username) {
+  const userAlreadyExists = await db().sismemberAsync('user.username', username);
+  if (!userAlreadyExists) return;
+
+  const buildComplete = await db().hgetAsync(`user:${username}`, 'buildComplete');
+  if (buildComplete) return;
 
   db().hsetAsync(`user:${username}`, 'buildComplete', true);
-  let existing = getAll(username);
+  let existing = await getAll(username);
 
   let c1, c2;
-  c1 = (c2 = Math.floor(Math.random() * 3));
+  c1 = (c2 = Math.floor(Math.random() * 3) + 5);
   while (c1 === c2) {
-    c1 = Math.floor(Math.random() * 3);
+    c1 = Math.floor(Math.random() * 3) + 5;
   }
+
+  console.log(c1);
+  console.log(c2);
 
   const selected = coupons.filter((c, index) => {
     return c.limited === true && (index === c1 || index === c2);
-  }).map((c) => {
-    c['quantity'] = 1;
-    // set expiration date to be 8 months later
-    c['expiration-date'] = new Date().setMonth(new Date().getMonth() + 8);
-    c['owner'] = username;
-    c['status'] = 'available';
+  }).map(c => {
+    return Object.assign({
+      'quantity': 1,
+      // set expiration date to be 8 months later
+      'expiration-date': new Date().setMonth(new Date().getMonth() + 8),
+      'owner': username,
+      'status': 'available',
+    }, c);
   });
 
-  existing.push(selected[c1], selected[c2]);
+  existing.push(...selected);
 
-  db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing));
-  return [selected[c1], selected[c2]];
+  console.log(existing);
+
+  return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing))
+  .then(() => getAll(username));
 }
 
-export function getAll(username) {
-  const all = db().hgetAsync(`user:${username}`, 'coupons') || '[]';
+export async function getAll(username) {
+  const all = await db().hgetAsync(`user:${username}`, 'coupons') || '[]';
 
   return JSON.parse(all);
 }
 
-export function consumeAndUpdate(username, couponId) {
-  let existing = getAll(username);
+export async function consumeAndUpdate(username, couponId) {
+  let existing = await getAll(username);
   let intended = null;
   for (let c of existing) {
     if (c.id === couponId) {
@@ -59,26 +71,27 @@ export function consumeAndUpdate(username, couponId) {
 
   intended.quantity = intended.quantity - 1;
   intended.status = 'pending';
+
   db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing));
 }
 
-export function history(username) {
-  const history = db().hgetAsync(`user:${username}`, 'history') || '[]';
+export async function history(username) {
+  const history = await db().hgetAsync(`user:${username}`, 'history') || '[]';
 
   return JSON.parse(history);
 }
 
 function buildDefault(username) {
-  var defaultCoupons = coupons.filter((c) => {
+  let defaultCoupons = coupons.filter((c) => {
     return c.limited === false;
+  }).map(c => {
+    return Object.assign({
+      'quantity': 2,
+      'expiration-date': null,
+      'owner': username,
+      'status': 'available',
+    }, c);
   });
 
-  defaultCoupons = defaultCoupons.map((c) => {
-    c['quantity'] = 2;
-    c['expiration-date'] = null;
-    c['owner'] = username;
-    c['status'] = 'available';
-  });
-
-  db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(defaultCoupons));
+  return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(defaultCoupons));
 }

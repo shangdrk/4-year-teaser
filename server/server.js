@@ -1,3 +1,6 @@
+import 'babel-polyfill';
+import 'babel-core/register';
+
 import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
 import crypto from 'crypto';
@@ -35,6 +38,10 @@ app.use('/assets', express.static(`${__dirname}/assets`));
 app.use('/components', express.static(`${__dirname}/components`));
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
+
 app.use(cookieSession({
   name: 'session',
   keys: [secrets.sessionKey],
@@ -75,7 +82,30 @@ app.post('/verify', (req, res) => {
 
 app.post('/api/coupon/build', (req, res) => {
   const username = req.body.username;
+
+  pack(couponAPI.build(username), res);
 });
+
+app.post('/api/coupon/build-limited', (req, res) => {
+  const username = req.body.username;
+  console.log(username);
+
+  pack(couponAPI.buildLimited(username), res);
+});
+
+// Validity check and error handling before sending back response
+function pack(promise, res) {
+  return promise
+    .then(result => {
+      if (result == null) {
+        res.status(404).sendFile(path.join(__dirname, '/assets/404NotFound.html'));
+      } else {
+        res.send(result);
+      }
+    }).catch(error => {
+      console.error(error);
+    });
+}
 
 app.listen(8000, () => {
   db.initClient();

@@ -1,4 +1,5 @@
 build/
+dump.rdb
 node_modules/
 secrets.js
 server/api/coupons-all.json
