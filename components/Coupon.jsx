@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Slider from 'react-slick';
+
+import CouponCard from './CouponCard';
+import * as couponActions from '../redux/modules/coupon';
 
 export class Coupon extends Component {
   static propTypes = {
-    dispatch: React.PropTypes.func.isRequired,
-    coupons: React.PropTypes.array.isRequired,
-    history: React.PropTypes.array.isRequired,
+    dispatch: React.PropTypes.func,
+    coupons: React.PropTypes.array,
+    history: React.PropTypes.array,
+    username: React.PropTypes.string.isRequired,
+    onSectionChange: React.PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -16,9 +22,39 @@ export class Coupon extends Component {
     };
   }
 
+  componentWillMount() {
+    const { dispatch, username } = this.props;
+    dispatch(couponActions.fetchBuildResults(username));
+  }
+
+  handleUseCoupon = (e) => {
+
+  };
+
+  getCouponCards() {
+    const { coupons } = this.props;
+    return coupons.map((coupon, index) => {
+      return (
+        <div key={`card-${index}`}>
+          <CouponCard coupon={coupon} onUseCoupon={this.handleUseCoupon} />
+        </div>
+      );
+    });
+  }
+
   render() {
+    const settings = {
+      centerMode: true,
+      dots: true,
+      draggable: false,
+      infinite: false,
+      afterChange: null,
+    };
+
     return (
-      <div>Coupon</div>
+      <Slider {...settings}>
+        {this.getCouponCards()}
+      </Slider>
     );
   }
 }

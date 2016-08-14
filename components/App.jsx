@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import store from '../redux/store';
+import Coupon from './Coupon';
 import Greeting from './Greeting';
 import Quiz from './Quiz';
 
@@ -16,31 +17,47 @@ export class App extends Component {
 
     this.state = {
       section: 'Greeting',
+      subProps: {},
     };
   }
 
-  handleSectionChange = (section) => {
+  handleSectionChange = (section, subProps) => {
+    subProps = subProps || {};
+
     return (e) => {
-      this.setState({section});
+      this.setState({section, subProps});
     };
   };
 
   sectionToReactComponent = () => {
     let props;
+    const { section, subProps } = this.state;
 
-    switch(this.state.section) {
+    switch(section) {
       case 'Greeting':
         props = {
+          ...subProps,
           onSectionChange: this.handleSectionChange,
         };
         return (<Greeting {...props} />);
+
       case 'Quiz':
         props = {
+          ...subProps,
           onSectionChange: this.handleSectionChange,
         };
         return (<Quiz {...props}/>);
+
+      case 'Coupon':
+        props = {
+          ...subProps,
+          onSectionChange: this.handleSectionChange,
+        };
+        return (<Coupon {...props} />);
+
       default:
         props = {
+          ...subProps,
           onSectionChange: this.handleSectionChange,
         };
         return (<Greeting {...props} />);

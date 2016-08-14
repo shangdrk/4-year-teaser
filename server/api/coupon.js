@@ -1,9 +1,12 @@
 import { db } from '../database';
 import coupons from './coupons-data';
+import * as util from './util';
 
 export async function build(username) {
   const userAlreadyExists = await db().sismemberAsync('user.username', username);
-  if (userAlreadyExists) return;
+  if (userAlreadyExists) {
+    return getAll(username);
+  }
 
   const id = await db().incrAsync('user.length');
 
@@ -15,10 +18,12 @@ export async function build(username) {
 
 export async function buildLimited(username) {
   const userAlreadyExists = await db().sismemberAsync('user.username', username);
-  if (!userAlreadyExists) return;
+  if (!userAlreadyExists) return {};
 
   const buildComplete = await db().hgetAsync(`user:${username}`, 'buildComplete');
-  if (buildComplete) return;
+  if (buildComplete) {
+    return getAll(username);
+  }
 
   db().hsetAsync(`user:${username}`, 'buildComplete', true);
   let existing = await getAll(username);
@@ -36,6 +41,7 @@ export async function buildLimited(username) {
     return c.limited === true && (index === c1 || index === c2);
   }).map(c => {
     return Object.assign({
+      'unique-id': util.numericId(7),
       'quantity': 1,
       // set expiration date to be 8 months later
       'expiration-date': new Date().setMonth(new Date().getMonth() + 8),
@@ -86,6 +92,7 @@ function buildDefault(username) {
     return c.limited === false;
   }).map(c => {
     return Object.assign({
+      'unique-id': util.numericId(7),
       'quantity': 2,
       'expiration-date': null,
       'owner': username,
