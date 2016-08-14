@@ -55,9 +55,22 @@ export class Coupon extends Component {
     };
 
     return (
-      <Slider {...settings}>
-        {this.getCouponCards()}
-      </Slider>
+      <div>
+        <nav className="navbar navbar-default">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <a className="navbar-brand">❤️</a>
+            </div>
+            <div className="collapse navbar-collapse">
+              <span className="navbar-text">{this.props.username}</span>
+              <a className="navbar-text navbar-right">next step >></a>
+            </div>
+          </div>
+        </nav>
+        <Slider {...settings}>
+          {this.getCouponCards()}
+        </Slider>
+      </div>
     );
   }
 }

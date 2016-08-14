@@ -8,6 +8,10 @@ body {
   margin-bottom: 5px;
 }
 
+.CoupoCard-container {
+  position: relative;
+}
+
 .CouponCard-card {
   background-color: #ffffff;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -17,8 +21,13 @@ body {
   max-height: 35vh;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30vh;
-  margin-bottom: 30vh;
+  margin-top: 23vh;
+  margin-bottom: 8vh;
+  z-index: 1;
+}
+
+.CouponCard-card.active {
+  z-index: 2;
 }
 
 .CouponCard-card:hover {
@@ -27,6 +36,17 @@ body {
 
 .CouponCard-card > .CouponCard-block {
   padding: 12px 16px;
+}
+
+.CouponCard-left {
+  margin-left: 30%;
+  margin-right: -20%;
+}
+
+.CouponCard-right {
+  margin-left: -20%;
+  margin-right: 30%;
+  margin-top: 18vh;
 }
 
 .slick-prev:before, .slick-next:before {
