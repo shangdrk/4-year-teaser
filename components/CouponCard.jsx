@@ -22,8 +22,12 @@ export default class CouponCard extends Component {
       <div className="CouponCard-card">
         <div className="CouponCard-block row">
           <div className="col-sm-8">
-            <p>{coupon.description}</p>
-            <button className="btn btn-primary" onClick={onUseCoupon}>使用</button>
+            <h4>{coupon.description}</h4>
+            <button
+              className="btn btn-primary"
+              onClick={onUseCoupon(coupon['unique-id'])}>
+              使用
+            </button>
           </div>
           <div className="col-sm-4">
             <p className="text-center compact-para">有效期至：{coupon['expiration-date'] ?

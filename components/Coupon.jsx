@@ -27,8 +27,11 @@ export class Coupon extends Component {
     dispatch(couponActions.fetchBuildResults(username));
   }
 
-  handleUseCoupon = (e) => {
-
+  handleUseCoupon = (uniqueId) => {
+    return (e) => {
+      const { dispatch, username } = this.props;
+      dispatch(couponActions.fetchConsumeResults(uniqueId, username));
+    };
   };
 
   getCouponCards() {
