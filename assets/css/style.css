@@ -8,6 +8,13 @@ body {
   margin-bottom: 5px;
 }
 
+.Coupon-limited-dialog {
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  margin-left: -105px;
+}
+
 .CoupoCard-container {
   position: relative;
 }

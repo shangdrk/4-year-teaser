@@ -13,7 +13,10 @@ export async function build(username) {
   return db().saddAsync('user.username', username)
   .then(() => db().hsetAsync(`user:${username}`, 'id', id))
   .then(() => buildDefault(username))
-  .then(() => getAll(username));
+  .then(() => getAll(username))
+  .then(coupons => {
+    return {coupons};
+  });
 }
 
 export async function buildLimited(username) {
@@ -25,7 +28,7 @@ export async function buildLimited(username) {
     return getAll(username);
   }
 
-  db().hsetAsync(`user:${username}`, 'buildComplete', true);
+  await db().hsetAsync(`user:${username}`, 'buildComplete', true);
   let existing = await getAll(username);
 
   let c1, c2;
@@ -33,9 +36,6 @@ export async function buildLimited(username) {
   while (c1 === c2) {
     c1 = Math.floor(Math.random() * 3) + 5;
   }
-
-  console.log(c1);
-  console.log(c2);
 
   const selected = coupons.filter((c, index) => {
     return c.limited === true && (index === c1 || index === c2);
@@ -52,10 +52,34 @@ export async function buildLimited(username) {
 
   existing.push(...selected);
 
-  console.log(existing);
-
   return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing))
-  .then(() => getAll(username));
+  .then(() => getAll(username))
+  .then(coupons => {
+    return {
+      coupons,
+      buildLimitedStatus: 'complete',
+    };
+  });
+}
+
+export function getBuildLimitedStatus(username) {
+  return db().hgetAsync(`user:${username}`, 'buildComplete')
+  .then(value => {
+    return {
+      buildLimitedStatus: (value == null) ? 'incomplete' : 'complete',
+    };
+  });
+}
+
+export async function getOnboardingStatus(username) {
+  const status = await db().hgetAsync(`user:${username}`, 'onBoardingComplete');
+
+  if (status == null) {
+    await db().hsetAsync(`user:${username}`, 'onBoardingStatus', 'true');
+    return {onBoardingStatus: 'incomplete'};
+  } else {
+    return {onBoardingStatus: 'complete'};
+  }
 }
 
 export async function getAll(username) {

@@ -1,7 +1,7 @@
 🎉4-year-teaser🎉
 =================
 
-An anniversary website. Embedded with a minimal authentication mechanism and a coupon system.
+An anniversary website embedded with a minimal authentication mechanism and a coupon system.
 
 ## Installation
 
@@ -26,9 +26,9 @@ $ gulp server
 The gulp task creates a build folder under the project directory and runs the server afterwards.
 A `secrets.js` file will be generated under `./server`. It contains app secrets used for cookie session initiation and authentication purposes.
 
-To skip the authentication, change `process.env.MODE` in `./server/server.js` to something other than `'development'` and rebuild.
+To skip authentication, change `process.env.MODE` in `./server/server.js` to something other than `'development'` and rebuild.
 
-Now the website is available at `http://localhost:8000`
+Now the website is available at `http://localhost:8000`.
 
 ## Development
 
@@ -40,5 +40,6 @@ Now the website is available at `http://localhost:8000`
 
 ## Todo List
 - `<Greeting />` should be used as a general-purpose component that connects two content components together
-- prompts user to confirm default username before building coupons
+- prompt user to confirm default username before building coupons
+- change current authentication mechanism so that server looks up session info instead of relying on post parameters
 
