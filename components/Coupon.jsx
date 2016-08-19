@@ -11,8 +11,7 @@ export class Coupon extends Component {
     dispatch: React.PropTypes.func,
     coupons: React.PropTypes.array,
     history: React.PropTypes.array,
-    buildLimitedStatus: React.PropTypes.string,
-    onboardingStatus: React.PropTypes.string,
+    buildLimitedComplete: React.PropTypes.bool,
     username: React.PropTypes.string.isRequired,
     onSectionChange: React.PropTypes.func.isRequired,
   };
@@ -21,27 +20,22 @@ export class Coupon extends Component {
     super();
 
     this.state = {
+      firstTime: false,
       showBuildLimited: false,
-      shouldModalOpen: false,
+      showModal: false,
     };
   }
 
   componentWillMount() {
     const { dispatch, username } = this.props;
+
+    dispatch(couponActions.fetchBuildLimitedStatus(username));
     dispatch(couponActions.fetchBuildResults(username));
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.buildLimitedStatus === 'incomplete') {
-      this.setState({showBuildLimited: true});
-    } else {
-      this.setState({showBuildLimited: false});
-    }
-
-    if (newProps.onboardingStatus === 'incomplete') {
-      this.setState({shouldModalOpen: true});
-    } else {
-      this.setState({shouldModalOpen: false});
+    if (!newProps.buildLimitedComplete) {
+      this.setState({firstTime: true});
     }
   }
 
@@ -54,22 +48,28 @@ export class Coupon extends Component {
 
   handleBuildLimited = (e) => {
     const { dispatch, username } = this.props;
-    dispatch(couponActions.fetchBuildLimitedResults(username));
+    dispatch(couponActions.fetchBuildLimitedResults(username))
+    .then(() => dispatch(couponActions.fetchBuildLimitedStatus(username)));
   };
 
   handleSlideChange = (index) => {
-    const { dispatch, coupons, username } = this.props;
+    const { coupons } = this.props;
     if (index === coupons.length - 1) {
-      if (!this.props.buildLimitedStatus) {
-        dispatch(couponActions.fetchBuildLimitedStatus(username));
-      } else {
-        dispatch(couponActions.fetchOnboardingStatus(username));
+      if (!this.props.buildLimitedComplete) {
+        this.setState({
+          showBuildLimited: true,
+        });
+      } else if (this.state.firstTime) {
+        this.setState({
+          showModal: true,
+          firstTime: false,
+        });
       }
     }
   };
 
   handleHideModal = (e) => {
-    this.setState({shouldModalOpen: false});
+    this.setState({showModal: false});
   }
 
   getCouponCards() {
@@ -94,7 +94,7 @@ export class Coupon extends Component {
     };
 
     return (
-      <Modal isOpen={this.state.shouldModalOpen} style={modalStyle} >
+      <Modal isOpen={this.state.showModal} style={modalStyle} >
         <div className="modal-content">
           <div className="modal-body">
             <p>You can come back to this page whenever you want</p>
@@ -110,6 +110,7 @@ export class Coupon extends Component {
   }
 
   render() {
+    const { buildLimitedComplete } = this.props;
     const { showBuildLimited } = this.state;
     const settings = {
       centerMode: true,
@@ -136,7 +137,7 @@ export class Coupon extends Component {
         <Slider {...settings}>
           {this.getCouponCards()}
         </Slider>
-        {showBuildLimited ?
+        {showBuildLimited && !buildLimitedComplete ?
           <div className="Coupon-limited-dialog text-center">
             <p>是否还想随机抽取两张至尊酷胖？</p>
             <button
@@ -154,7 +155,6 @@ export default connect(state => {
   return {
     coupons: state.coupon.coupons,
     history: state.coupon.history,
-    buildLimitedStatus: state.coupon.buildLimitedStatus,
-    onboardingStatus: state.coupon.onboardingStatus,
+    buildLimitedComplete: state.coupon.buildLimitedComplete,
   };
 })(Coupon);

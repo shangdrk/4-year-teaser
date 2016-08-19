@@ -2,13 +2,11 @@ import 'whatwg-fetch';
 
 export const RECEIVE_BUILD_RESULTS = 'coupon/receive-build-results';
 export const RECEIVE_BUILD_LIMITED_STATUS = 'coupon/receive-build-limited-status';
-export const RECEIVE_ONBOARDING_STATUS = 'coupon/receive-onboarding-status';
 
 const initial = {
   coupons: [],
   history: [],
-  buildLimitedStatus: '',
-  onboardingStatus: '',
+  buildLimitedComplete: false,
 };
 
 export default function reducer(state=initial, action={}) {
@@ -17,19 +15,12 @@ export default function reducer(state=initial, action={}) {
       return Object.assign({}, state, {
         ...state,
         coupons: action.coupons,
-        buildLimitedStatus: action.buildLimitedStatus,
       });
 
     case RECEIVE_BUILD_LIMITED_STATUS:
       return Object.assign({}, state, {
         ...state,
-        buildLimitedStatus: action.buildLimitedStatus,
-      });
-
-    case RECEIVE_ONBOARDING_STATUS:
-      return Object.assign({}, state, {
-        ...state,
-        onboardingStatus: action.onboardingStatus,
+        buildLimitedComplete: action.buildLimitedComplete,
       });
 
     default: return state;
@@ -41,22 +32,14 @@ export default function reducer(state=initial, action={}) {
 export function receiveBuildResults(coupons) {
   return {
     type: RECEIVE_BUILD_RESULTS,
-    coupons: coupons.coupons,
-    buildLimitedStatus: coupons.buildLimitedStatus || '',
+    coupons,
   };
 }
 
-export function receiveBuildLimitedStatus(status) {
+export function receiveBuildLimitedComplete(status) {
   return {
     type: RECEIVE_BUILD_LIMITED_STATUS,
-    buildLimitedStatus: status.buildLimitedStatus,
-  };
-}
-
-export function receiveOnboardingStatus(status) {
-  return {
-    type: RECEIVE_ONBOARDING_STATUS,
-    onboardingStatus: status.onboardingStatus,
+    buildLimitedComplete: status.buildLimitedComplete,
   };
 }
 
@@ -109,24 +92,7 @@ export function fetchBuildLimitedStatus(username) {
         username: username,
       }),
     }).then(response => response.json())
-      .then(data => dispatch(receiveBuildLimitedStatus(data)));
-  };
-}
-
-export function fetchOnboardingStatus(username) {
-  return dispatch => {
-    return fetch('/api/coupon/onboarding-status', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-      }),
-    }).then(response => response.json())
-      .then(data => dispatch(receiveOnboardingStatus(data)));
+      .then(data => dispatch(receiveBuildLimitedComplete(data)));
   };
 }
 

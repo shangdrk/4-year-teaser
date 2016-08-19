@@ -98,12 +98,6 @@ app.post('/api/coupon/build-limited-status', (req, res) => {
   pack(couponAPI.getBuildLimitedStatus(username), res);
 });
 
-app.post('/api/coupon/onboarding-status', (req, res) => {
-  const username = req.body.username;
-
-  pack(couponAPI.getOnboardingStatus(username), res);
-});
-
 app.post('api/coupon/consume', (req, res) => {
   const { username, uniqueId } = req.body;
 
