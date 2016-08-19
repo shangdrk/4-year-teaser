@@ -37,8 +37,10 @@ export async function buildLimited(username) {
   const selected = coupons.filter((c, index) => {
     return c.limited === true && (index === c1 || index === c2);
   }).map(c => {
+    const uidArray = generateUidArray(1, username);
+
     return Object.assign({
-      'unique-id': util.numericId(7),
+      'unique-id': uidArray,
       'quantity': 1,
       // set expiration date to be 8 months later
       'expiration-date': new Date().setMonth(new Date().getMonth() + 8),
@@ -70,19 +72,24 @@ export async function getAll(username) {
 
 export async function consumeAndUpdate(username, couponId) {
   let existing = await getAll(username);
-  let intended = null;
+  const owner = await db().getAsync(`uid:${couponId}`);
+
+  if (owner !== username) {
+    return {status: '401'};
+  }
+
   for (let c of existing) {
-    if (c.id === couponId) {
-      intended = c;
+    const pos = c['unique-id'].indexOf(couponId);
+    if (pos !== -1) {
+      c['unique-id'].splice(pos, 1);
+      c.quantity -= 1;
+      await db().delAsync(`uid:${couponId}`);
       break;
     }
   }
-  if (!intended || !intended.quantity) return;
 
-  intended.quantity = intended.quantity - 1;
-  intended.status = 'pending';
-
-  db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing));
+  return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing))
+  .then(() => existing);
 }
 
 export async function history(username) {
@@ -95,8 +102,10 @@ function buildDefault(username) {
   let defaultCoupons = coupons.filter((c) => {
     return c.limited === false;
   }).map(c => {
+    const uidArray = generateUidArray(2, username);
+
     return Object.assign({
-      'unique-id': util.numericId(7),
+      'unique-id': uidArray,
       'quantity': 2,
       'expiration-date': null,
       'owner': username,
@@ -106,3 +115,23 @@ function buildDefault(username) {
 
   return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(defaultCoupons));
 }
+
+async function generateUidArray(quantity, username) {
+  const uidArray = [];
+
+  for (let i=0; i< quantity; i++) {
+    let uid = util.numericId(7);
+    let collision = await db().getAsync(`uid:${uid}`);
+
+    while (collision) {
+      uid = util.numericId(7);
+      collision = await db().getAsync(`uid:${uid}`);
+    }
+
+    await db().setAsync(`uid:${uid}`, username);
+    uidArray.push(uid);
+  }
+
+  return uidArray;
+}
+
