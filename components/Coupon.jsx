@@ -87,6 +87,8 @@ export class Coupon extends Component {
     const modalStyle = {
       content: {
         'position': 'absolute',
+        'backgroundColor': 'rgba(0, 0, 0, 0)',
+        'border': 'none',
         'width': '35%',
         'margin': 'auto',
         'top': '20vh',
