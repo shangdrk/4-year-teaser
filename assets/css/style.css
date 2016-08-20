@@ -56,6 +56,15 @@ body {
   margin-top: 18vh;
 }
 
+.CouponCard-pending {
+  position: absolute;
+  width: 40%;
+  margin-right: 20%;
+  margin-bottom: 10%;
+  bottom: 0;
+  right: 0;
+}
+
 .slick-prev:before, .slick-next:before {
   font-family: "Glyphicons Halflings", "slick", sans-serif;
   font-size: 30px;

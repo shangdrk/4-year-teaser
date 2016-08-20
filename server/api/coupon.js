@@ -71,6 +71,29 @@ export async function getAll(username) {
   return JSON.parse(all);
 }
 
+export async function requestConsumption(username, couponId) {
+  let existing = await getAll(username);
+  const owner = await db().getAsync(`uid:${couponId}`);
+
+  if (owner !== username) {
+    return {status: '401'};
+  }
+
+  for (let c of existing) {
+    const pos = c['unique-id'].indexOf(couponId);
+    if (pos !== -1) {
+      const pendingRecord = {username, couponId};
+      c.status = 'pending';
+      await db().rpushAsync('admin.pending', JSON.stringify(pendingRecord));
+
+      break;
+    }
+  }
+
+  return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing))
+  .then(() => existing);
+}
+
 export async function consumeAndUpdate(username, couponId) {
   let existing = await getAll(username);
   const owner = await db().getAsync(`uid:${couponId}`);

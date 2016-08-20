@@ -101,7 +101,7 @@ app.post('/api/coupon/build-limited-status', (req, res) => {
 app.post('/api/coupon/consume', (req, res) => {
   const { username, uniqueId } = req.body;
 
-  pack(couponAPI.consumeAndUpdate(username, uniqueId), res);
+  pack(couponAPI.requestConsumption(username, uniqueId), res);
 });
 
 // Validity check and error handling before sending back response

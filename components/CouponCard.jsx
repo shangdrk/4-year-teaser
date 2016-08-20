@@ -60,6 +60,8 @@ export default class CouponCard extends Component {
             <p className="text-center compact-para">持有者：{coupon.owner}</p>
           </div>
         </div>
+        {coupon.status === 'pending' ?
+          <img src="/assets/images/pending.png" className="CouponCard-pending" /> : null}
       </div>
     );
   }
