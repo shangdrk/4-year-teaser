@@ -98,7 +98,7 @@ app.post('/api/coupon/build-limited-status', (req, res) => {
   pack(couponAPI.getBuildLimitedStatus(username), res);
 });
 
-app.post('api/coupon/consume', (req, res) => {
+app.post('/api/coupon/consume', (req, res) => {
   const { username, uniqueId } = req.body;
 
   pack(couponAPI.consumeAndUpdate(username, uniqueId), res);

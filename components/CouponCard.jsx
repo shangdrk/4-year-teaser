@@ -49,7 +49,7 @@ export default class CouponCard extends Component {
             <h4>{coupon.description}</h4>
             <button
               className="btn btn-primary"
-              onClick={onUseCoupon(coupon['unique-id'])}>
+              onClick={onUseCoupon(coupon['unique-id'][index])}>
               使用
             </button>
           </div>

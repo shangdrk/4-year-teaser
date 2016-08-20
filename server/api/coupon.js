@@ -51,7 +51,6 @@ export async function buildLimited(username) {
   });
 
   return Promise.all(selected).then(selected => {
-    console.log(selected);
     existing.push(...selected);
     return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing));
   }).then(() => getAll(username));
@@ -86,9 +85,14 @@ export async function consumeAndUpdate(username, couponId) {
       c['unique-id'].splice(pos, 1);
       c.quantity -= 1;
       await db().delAsync(`uid:${couponId}`);
+
       break;
     }
   }
+
+  existing = existing.filter(c => {
+    return c.quantity != 0;
+  });
 
   return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing))
   .then(() => existing);

@@ -68,6 +68,7 @@ export function fetchBuildLimitedStatus(username) {
 
 // TODO: authentication and security: can't let user consume everyone's coupons
 export function fetchConsumeResults(username, uniqueId) {
+  console.log({username, uniqueId});
   return dispatch => {
     return fetchJson('/api/coupon/consume', {username, uniqueId})
     .then(data => dispatch(receiveBuildResults(data)));

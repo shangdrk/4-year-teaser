@@ -24,7 +24,7 @@ export default class Greeting extends Component {
         <div>
           <button
             className="btn btn-primary"
-            onClick={this.props.onSectionChange('Coupon', {username: 'janna'})} >
+            onClick={this.props.onSectionChange('Coupon', {username: 'kled'})} >
             Unwrap Derek's gift :)
           </button>
         </div>
