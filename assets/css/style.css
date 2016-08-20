@@ -29,6 +29,11 @@ main > button {
   animation-duration: 3s;
 }
 
+p.text-enter {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  margin-top: 3vh;
+}
+
 .compact-para {
   font-size: 11px;
   margin-top: 5px;
@@ -44,13 +49,9 @@ main > button {
   font-family: helvetica !important;
 }
 
-.navbar-right .navbar-text:last-of-type {
+.navbar-no-left-margin {
   margin-left: 0;
   padding-right: 3vw;
-}
-
-.navbar-right .navbar-text:first-of-type {
-  margin-right: 1vw;
 }
 
 .Coupon-limited-dialog {
@@ -126,4 +127,15 @@ main > button {
 
 .slick-next:before {
   content: "\e258";
+}
+
+.Finale-better-font {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+#finale-main:before {
+  content: "";
+    display: inline-block;
+    height: 8vh;
+    min-height: 20px;
 }

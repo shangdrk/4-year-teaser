@@ -4,14 +4,11 @@ import { Provider } from 'react-redux';
 
 import store from '../redux/store';
 import Coupon from './Coupon';
+import Finale from './Finale';
 import Greeting from './Greeting';
 import Quiz from './Quiz';
 
 export class App extends Component {
-  static propTypes = {
-
-  };
-
   constructor() {
     super();
 
@@ -30,36 +27,26 @@ export class App extends Component {
   };
 
   sectionToReactComponent = () => {
-    let props;
     const { section, subProps } = this.state;
+    const props = {
+      ...subProps,
+      onSectionChange: this.handleSectionChange,
+    };
 
     switch(section) {
       case 'Greeting':
-        props = {
-          ...subProps,
-          onSectionChange: this.handleSectionChange,
-        };
         return (<Greeting {...props} />);
 
       case 'Quiz':
-        props = {
-          ...subProps,
-          onSectionChange: this.handleSectionChange,
-        };
         return (<Quiz {...props}/>);
 
       case 'Coupon':
-        props = {
-          ...subProps,
-          onSectionChange: this.handleSectionChange,
-        };
         return (<Coupon {...props} />);
 
+      case 'Finale':
+        return (<Finale {...props} />);
+
       default:
-        props = {
-          ...subProps,
-          onSectionChange: this.handleSectionChange,
-        };
         return (<Greeting {...props} />);
     }
   };

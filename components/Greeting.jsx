@@ -39,7 +39,7 @@ export default class Greeting extends Component {
           </div>
         </div>
         <main>
-          <p>{text.letter}</p>
+          <p>{text.letterTop}</p>
           <button
             className={unwrapBtnClass}
             onClick={this.handleUnwrapClick} >

@@ -124,19 +124,19 @@ export class Coupon extends Component {
 
     return (
       <div>
-      {this.getNoteModal()}
+        {this.getNoteModal()}
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
               <a className="navbar-brand">❤️</a>
             </div>
             <div className="collapse navbar-collapse">
-              <span className="navbar-text">{this.props.username}</span>
+              <span className="navbar-text">{username}</span>
               <span className="navbar-right">
-                <a className="navbar-text" onClick={onSectionChange('', {username})}>
+                <a className="navbar-text" onClick={onSectionChange('Finale', {username})}>
                   next step
                 </a>
-                <span className="navbar-text">
+                <span className="navbar-text navbar-no-left-margin">
                   <span className="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
                 </span>
               </span>
