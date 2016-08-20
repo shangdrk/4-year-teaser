@@ -56,7 +56,7 @@ export default class CouponCard extends Component {
           <div className="col-sm-4">
             <p className="text-center compact-para">有效期至：{coupon['expiration-date'] ?
               moment(coupon['expiration-date']).format('MM/DD/YYYY') : '永久'}</p>
-            <p className="text-center compact-para">编号：{coupon['unique-id']}</p>
+            <p className="text-center compact-para">编号：{coupon['unique-id'][index]}</p>
             <p className="text-center compact-para">持有者：{coupon.owner}</p>
           </div>
         </div>
@@ -67,6 +67,7 @@ export default class CouponCard extends Component {
   render() {
     const quantity = this.props.coupon.quantity,
       cards = [];
+
     for (let i=0; i<quantity; i++) {
       cards.push(this.createCoupon(i));
     }

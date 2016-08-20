@@ -36,23 +36,25 @@ export async function buildLimited(username) {
 
   const selected = coupons.filter((c, index) => {
     return c.limited === true && (index === c1 || index === c2);
-  }).map(c => {
-    const uidArray = generateUidArray(1, username);
-
-    return Object.assign({
-      'unique-id': uidArray,
-      'quantity': 1,
-      // set expiration date to be 8 months later
-      'expiration-date': new Date().setMonth(new Date().getMonth() + 8),
-      'owner': username,
-      'status': 'available',
-    }, c);
+  }).map(async (c) => {
+    return await generateUidArray(1, username)
+    .then(uidArray => {
+      return Object.assign({
+        'unique-id': uidArray,
+        'quantity': 1,
+        // set expiration date to be 8 months later
+        'expiration-date': new Date().setMonth(new Date().getMonth() + 8),
+        'owner': username,
+        'status': 'available',
+      }, c);
+    });
   });
 
-  existing.push(...selected);
-
-  return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing))
-  .then(() => getAll(username));
+  return Promise.all(selected).then(selected => {
+    console.log(selected);
+    existing.push(...selected);
+    return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing));
+  }).then(() => getAll(username));
 }
 
 export function getBuildLimitedStatus(username) {
@@ -99,21 +101,23 @@ export async function history(username) {
 }
 
 function buildDefault(username) {
-  let defaultCoupons = coupons.filter((c) => {
+  let couponPromises = coupons.filter(c => {
     return c.limited === false;
-  }).map(c => {
-    const uidArray = generateUidArray(2, username);
-
-    return Object.assign({
-      'unique-id': uidArray,
-      'quantity': 2,
-      'expiration-date': null,
-      'owner': username,
-      'status': 'available',
-    }, c);
+  }).map(async c => {
+    return await generateUidArray(2, username)
+    .then(uidArray => {
+      return Object.assign({
+        'unique-id': uidArray,
+        'quantity': 2,
+        'expiration-date': null,
+        'owner': username,
+        'status': 'available',
+      }, c);
+    });
   });
 
-  return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(defaultCoupons));
+  return Promise.all(couponPromises).then(defaultCoupons =>
+    db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(defaultCoupons)));
 }
 
 async function generateUidArray(quantity, username) {

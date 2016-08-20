@@ -1,4 +1,4 @@
-import 'whatwg-fetch';
+import { fetchJson } from '../util';
 
 export const RECEIVE_BUILD_RESULTS = 'coupon/receive-build-results';
 export const RECEIVE_BUILD_LIMITED_STATUS = 'coupon/receive-build-limited-status';
@@ -47,70 +47,29 @@ export function receiveBuildLimitedComplete(status) {
 
 export function fetchBuildResults(username) {
   return dispatch => {
-    return fetch('/api/coupon/build', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-      }),
-    }).then(response => response.json())
-      .then(data => dispatch(receiveBuildResults(data)));
+    return fetchJson('/api/coupon/build', {username})
+    .then(data => dispatch(receiveBuildResults(data)));
   };
 }
 
 export function fetchBuildLimitedResults(username) {
   return dispatch => {
-    return fetch('/api/coupon/build-limited', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-      }),
-    }).then(response => response.json())
-      .then(data => dispatch(receiveBuildResults(data)));
+    return fetchJson('/api/coupon/build-limited', {username})
+    .then(data => dispatch(receiveBuildResults(data)));
   };
 }
 
 export function fetchBuildLimitedStatus(username) {
   return dispatch => {
-    return fetch('/api/coupon/build-limited-status', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-      }),
-    }).then(response => response.json())
-      .then(data => dispatch(receiveBuildLimitedComplete(data)));
+    return fetchJson('/api/coupon/build-limited-status', {username})
+    .then(data => dispatch(receiveBuildLimitedComplete(data)));
   };
 }
 
 // TODO: authentication and security: can't let user consume everyone's coupons
 export function fetchConsumeResults(username, uniqueId) {
   return dispatch => {
-    return fetch('/api/coupon/consume', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        uniqueId: uniqueId,
-      }),
-    }).then(response => response.json())
-      .then(data => dispatch(receiveBuildResults(data)));
+    return fetchJson('/api/coupon/consume', {username, uniqueId})
+    .then(data => dispatch(receiveBuildResults(data)));
   };
 }

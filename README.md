@@ -42,4 +42,6 @@ Now the website is available at `http://localhost:8000`.
 - `<Greeting />` should be used as a general-purpose component that connects two content components together
 - prompt user to confirm default username before building coupons
 - change current authentication mechanism so that server looks up session info instead of relying on post parameters
+- HTTPS connections
+- load balancer with nginx?
 

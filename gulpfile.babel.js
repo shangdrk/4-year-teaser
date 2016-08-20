@@ -10,7 +10,7 @@ const webpackStream = require('webpack-stream');
 
 gulp.task('dev-server', ['build', 'launch-dev-server'], () => {
   gulp.watch(['assets/**/*'], ['copy-assets']);
-  gulp.watch(['components/**/*.jsx'], ['build-browser']);
+  gulp.watch(['components/**/*.jsx', 'redux/**/*'], ['build-browser']);
   gulp.watch(['server/**/*'], ['launch-dev-server']);
 });
 
