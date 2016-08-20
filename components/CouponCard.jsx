@@ -58,10 +58,10 @@ export default class CouponCard extends Component {
               moment(coupon['expiration-date']).format('MM/DD/YYYY') : '永久'}</p>
             <p className="text-center compact-para">编号：{coupon['unique-id'][index]}</p>
             <p className="text-center compact-para">持有者：{coupon.owner}</p>
+            {coupon.status === 'pending' ?
+              <img src="/assets/images/pending.png" className="CouponCard-pending" /> : null}
           </div>
         </div>
-        {coupon.status === 'pending' ?
-          <img src="/assets/images/pending.png" className="CouponCard-pending" /> : null}
       </div>
     );
   }
