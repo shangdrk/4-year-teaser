@@ -112,7 +112,7 @@ export class Coupon extends Component {
   }
 
   render() {
-    const { buildLimitedComplete } = this.props;
+    const { buildLimitedComplete, onSectionChange, username } = this.props;
     const { showBuildLimited } = this.state;
     const settings = {
       centerMode: true,
@@ -125,14 +125,21 @@ export class Coupon extends Component {
     return (
       <div>
       {this.getNoteModal()}
-        <nav className="navbar navbar-default">
+        <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
               <a className="navbar-brand">❤️</a>
             </div>
             <div className="collapse navbar-collapse">
               <span className="navbar-text">{this.props.username}</span>
-              <a className="navbar-text navbar-right">next step >></a>
+              <span className="navbar-right">
+                <a className="navbar-text" onClick={onSectionChange('', {username})}>
+                  next step
+                </a>
+                <span className="navbar-text">
+                  <span className="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+                </span>
+              </span>
             </div>
           </div>
         </nav>
