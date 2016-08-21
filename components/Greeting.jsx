@@ -49,7 +49,7 @@ export default class Greeting extends Component {
           {unwrapDisabled ?
             <button
               className="btn btn-success btn-block text-enter"
-              onClick={this.props.onSectionChange('Coupon', {username: 'leona'})} >
+              onClick={this.props.onSectionChange('Coupon', {username: 'morgana'})} >
               take the quiz 🙈
             </button> : null}
         </main>

@@ -27,31 +27,21 @@ export async function buildLimited(username) {
 
   await db().hsetAsync(`user:${username}`, 'buildComplete', true);
   let existing = await getAll(username);
+  let index = Math.floor(Math.random() * 2) + 5;
+  let c = coupons[index];
 
-  let c1, c2;
-  c1 = (c2 = Math.floor(Math.random() * 3) + 5);
-  while (c1 === c2) {
-    c1 = Math.floor(Math.random() * 3) + 5;
-  }
-
-  const selected = coupons.filter((c, index) => {
-    return c.limited === true && (index === c1 || index === c2);
-  }).map(async (c) => {
-    return await generateUidArray(1, username)
-    .then(uidArray => {
-      return Object.assign({
-        'unique-id': uidArray,
-        'quantity': 1,
-        // set expiration date to be 8 months later
-        'expiration-date': new Date().setMonth(new Date().getMonth() + 8),
-        'owner': username,
-        'status': 'available',
-      }, c);
-    });
-  });
-
-  return Promise.all(selected).then(selected => {
-    existing.push(...selected);
+  return await generateUidArray(1, username)
+  .then(uidArray => {
+    return Object.assign({
+      'unique-id': uidArray,
+      'quantity': 1,
+      // set expiration date to be 8 months later
+      'expiration-date': new Date().setMonth(new Date().getMonth() + 8),
+      'owner': username,
+      'status': 'available',
+    }, c);
+  }).then(selected => {
+    existing.push(selected);
     return db().hsetAsync(`user:${username}`, 'coupons', JSON.stringify(existing));
   }).then(() => getAll(username));
 }

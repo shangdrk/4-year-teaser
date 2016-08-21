@@ -148,7 +148,7 @@ export class Coupon extends Component {
         </Slider>
         {showBuildLimited && !buildLimitedComplete ?
           <div className="Coupon-limited-dialog text-center">
-            <p>是否还想随机抽取两张至尊酷胖？</p>
+            <p>是否还想随机抽取一张至尊酷胖？</p>
             <button
               className="btn btn-success"
               onClick={this.handleBuildLimited} >
