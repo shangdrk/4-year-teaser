@@ -7,7 +7,7 @@ export class Quiz extends Component {
   static propTypes = {
     dispatch: React.PropTypes.func,
     quiz: React.PropTypes.array,
-    judgeResult: React.PropTypes.object,
+    judgeResult: React.PropTypes.oneOf(['', 'correct', 'wrong']),
     onSectionChange: React.PropTypes.func.isRequired,
   };
 
@@ -15,7 +15,7 @@ export class Quiz extends Component {
     super();
 
     this.state = {
-      currentQuestionIndex: -1,
+      current: 0,
     };
   }
 
@@ -24,18 +24,44 @@ export class Quiz extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    if (newProps.judgeResult) {
 
+    }
   }
 
-  getQuestion() {
+  getQuizItem() {
+    const { current } = this.state;
+
+    return null;
+  }
+
+  handleSubmitAnswer = (e) => {
 
   }
 
   // onClick={this.props.onSectionChange('Coupon', {username: 'morgana'})}
   render() {
+    if (this.props.quiz.length === 0) return <div />;
+
+    const { quiz, judgeResult, onSectionChange } = this.props;
+    const { current } = this.state;
+    const item = quiz[current],
+      order = current + 1;
+
     return (
       <div>
-        {this.getQuestion()}
+        <h2>{`${order}. ${item.question}`}</h2>
+        {item.choices.map((choice, index) => {
+          return (
+            <div className="radio" key={`choice-${index}`}>
+              <label>
+                <input type="radio" name="choice" value={`${index}`} />
+                {choice}
+              </label>
+            </div>
+          );
+        })}
+        <button className="butn btn-primary">确认</button>
       </div>
     );
   }

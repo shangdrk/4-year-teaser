@@ -5,7 +5,7 @@ export const RECEIVE_JUDGE_RESULT = 'quiz/receive-judge-result';
 
 const initial = {
   quiz: [],
-  judgeResult: {},
+  judgeResult: '',
 };
 
 export default function reducer(state=initial, action={}) {
@@ -38,7 +38,7 @@ export function receiveQuizData(data) {
 export function receiveJudgeResult(data) {
   return {
     type: RECEIVE_QUIZ_DATA,
-    quiz: data,
+    judgeResult: data.result,
   };
 }
 
