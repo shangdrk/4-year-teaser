@@ -24,6 +24,18 @@ export class Greeting extends Component {
     this.props.dispatch(appDataActions.fetchGreetingText());
   }
 
+  getFormattedLetter(text) {
+    if (text == null) return null;
+
+    const paragraphs = text.split('\n');
+
+    return paragraphs.map((p, index) => {
+      return (
+        <p key={`p-${index}`}>{p}</p>
+      );
+    });
+  }
+
   handleUnwrapClick = e => {
     e.preventDefault();
     if (!this.state.unwrapDisabled) {
@@ -49,7 +61,7 @@ export class Greeting extends Component {
           </div>
         </div>
         <main>
-          <p>{appData.letter}</p>
+          {this.getFormattedLetter(appData.letter)}
           <button
             className={unwrapBtnClass}
             onClick={this.handleUnwrapClick} >

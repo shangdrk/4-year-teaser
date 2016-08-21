@@ -40,7 +40,7 @@ export class Quiz extends Component {
               呆里克的4周年小礼物是好多好多张金牌酷胖😏</p>
               <button
                 className="btn btn-primary btn-block text-enter"
-                onClick={onSectionChange('Coupon', {username: 'morgana'})}>
+                onClick={onSectionChange('Coupon', {username: 'nautilus'})}>
                 领取呆里克金牌酷胖
               </button>
             </div>

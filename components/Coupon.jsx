@@ -100,7 +100,7 @@ export class Coupon extends Component {
         <div className="modal-content">
           <div className="modal-body">
             <p>You can come back to this page whenever you want.
-            So don't hesitate to click "next step" :)</p>
+            So don't hesitate to click "next step" :) in the upper right corner</p>
           </div>
           <div className="modal-footer">
             <button className="btn btn-primary" onClick={this.handleHideModal}>
