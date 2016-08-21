@@ -73,6 +73,25 @@ export class Quiz extends Component {
     dispatch(quizActions.receiveJudgeResult({result: ''}));
   }
 
+  getFormattedQuestion(order, item) {
+    let images = [];
+    if (item.resources.length !== 0) {
+      for (let re of item.resources) {
+        images.push(
+          <img src={`/assets/images/${re}`} className="img-responsive img-thumbnail"
+            key={`${re}`} />
+        );
+      }
+    }
+
+    return (
+      <div style={{'textAlign': 'center'}}>
+        <h2>{`${order}. ${item.question}`}</h2>
+        {images}
+      </div>
+    );
+  }
+
   handleSubmitAnswer = (e) => {
     const { dispatch } = this.props;
     const { currentQuestion, currentChoice } = this.state;
@@ -108,7 +127,6 @@ export class Quiz extends Component {
     });
   };
 
-  // onClick={this.props.onSectionChange('Coupon', {username: 'morgana'})}
   render() {
     if (this.props.quiz.length === 0) return <div />;
 
@@ -120,7 +138,7 @@ export class Quiz extends Component {
     return (
       <div className="Quiz-container">
         {validityWarning}
-        <h2>{`${order}. ${item.question}`}</h2>
+        {this.getFormattedQuestion(order, item)}
         {item.choices.map((choice, index) => {
           return (
             <div className="radio" key={`choice-${index}`}>

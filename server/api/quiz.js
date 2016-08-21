@@ -6,6 +6,7 @@ export function getQuestions() {
     return Object.assign({}, {
       question: q.question,
       choices: q.choices,
+      resources: q.resources,
     });
   });
 }

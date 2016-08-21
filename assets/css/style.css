@@ -57,6 +57,10 @@ p.compact-para {
   margin-left: 10px;
 }
 
+.img-responsive {
+  max-width: 50%;
+}
+
 .navbar {
   background-color: #538291;
 }
