@@ -10,13 +10,13 @@ export function getQuestions() {
   });
 }
 
-export function getJudgeResult(index, answer) {
-  if (index >= quiz.length) {
+export function getJudgeResult(question, choice) {
+  if (question >= quiz.length) {
     return null;
   }
 
-  db().rpushAsync(`quiz:${index}`, answer);
-  if (answer === quiz[index].answer) {
+  db().rpushAsync(`quiz:${question}`, choice);
+  if (choice === quiz[question].answer) {
     return {result: 'correct'};
   } else {
     return {result: 'wrong'};

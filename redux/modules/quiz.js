@@ -37,7 +37,7 @@ export function receiveQuizData(data) {
 
 export function receiveJudgeResult(data) {
   return {
-    type: RECEIVE_QUIZ_DATA,
+    type: RECEIVE_JUDGE_RESULT,
     judgeResult: data.result,
   };
 }
@@ -48,5 +48,12 @@ export function fetchQuizData() {
   return dispatch => {
     return fetchJson('/api/quiz/data')
     .then(data => dispatch(receiveQuizData(data)));
+  };
+}
+
+export function fetchJudgeResult(question, choice) {
+  return dispatch => {
+    return fetchJson('/api/quiz/judge', {question, choice})
+    .then(data => dispatch(receiveJudgeResult(data)));
   };
 }

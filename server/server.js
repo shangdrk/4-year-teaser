@@ -121,6 +121,12 @@ app.post('/api/quiz/data', (req, res) => {
   pack(quizAPI.getQuestions(), res);
 });
 
+app.post('/api/quiz/judge', (req, res) => {
+  const { question, choice } = req.body;
+
+  pack(quizAPI.getJudgeResult(question, choice), res);
+});
+
 // Validity check and error handling before sending back response
 function pack(promise, res) {
   if (!promise.then) {

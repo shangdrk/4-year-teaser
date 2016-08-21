@@ -44,6 +44,10 @@ p.compact-para {
   white-space: nowrap;
 }
 
+.alert-info, .alert-danger {
+  margin-top: 3vh;
+}
+
 .navbar {
   background-color: #538291;
 }
@@ -139,7 +143,7 @@ p.compact-para {
 
 #finale-main:before {
   content: "";
-    display: inline-block;
-    height: 8vh;
-    min-height: 20px;
+  display: inline-block;
+  height: 8vh;
+  min-height: 20px;
 }
