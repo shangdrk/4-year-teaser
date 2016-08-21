@@ -47,7 +47,7 @@ export class Quiz extends Component {
           );
         } else {
           nextButton = (
-            <button className="btn btn-primary" onClick={this.handleNextQuestion}>
+            <button className="btn btn-primary Quiz-btn-right" onClick={this.handleNextQuestion}>
               答对啦~ 下一个
             </button>
           );
@@ -118,7 +118,7 @@ export class Quiz extends Component {
       order = currentQuestion + 1;
 
     return (
-      <div>
+      <div className="Quiz-container">
         {validityWarning}
         <h2>{`${order}. ${item.question}`}</h2>
         {item.choices.map((choice, index) => {

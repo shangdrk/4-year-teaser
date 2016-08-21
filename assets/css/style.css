@@ -48,6 +48,15 @@ p.compact-para {
   margin-top: 3vh;
 }
 
+.Quiz-container {
+  padding-left: 10vw;
+  padding-right: 10vw;
+}
+
+.Quiz-btn-right {
+  margin-left: 10px;
+}
+
 .navbar {
   background-color: #538291;
 }
