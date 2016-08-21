@@ -39,6 +39,15 @@ export class Coupon extends Component {
     }
   }
 
+  getTotalQuantity() {
+    console.log('in the function');
+    const { coupons } = this.props;
+
+    return coupons.reduce((prev, cur) => {
+      return prev + cur.quantity;
+    }, 0);
+  }
+
   handleUseCoupon = (uniqueId) => {
     return (e) => {
       const { dispatch, username } = this.props;
@@ -147,6 +156,7 @@ export class Coupon extends Component {
         <Slider {...settings}>
           {this.getCouponCards()}
         </Slider>
+        <span className="Coupon-quantity">Total quantity: {this.getTotalQuantity()}</span>
         {showBuildLimited && !buildLimitedComplete ?
           <div className="Coupon-limited-dialog text-center">
             <p>是否还想随机抽取一张至尊酷胖？</p>

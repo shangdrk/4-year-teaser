@@ -14,7 +14,7 @@ import secrets from './secrets';
 
 let app = express();
 
-process.env.MODE = 'development';
+process.env.MODE = 'production';
 
 let validSessions = [];
 const authenticate = (req, res, next) => {

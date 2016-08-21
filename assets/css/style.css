@@ -83,6 +83,12 @@ p.compact-para {
   margin-left: -105px;
 }
 
+.Coupon-quantity {
+  position: absolute;
+  top: 15%;
+  left: 6%
+}
+
 .CouponCard-container {
   position: relative;
 }
