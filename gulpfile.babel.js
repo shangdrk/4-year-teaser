@@ -38,11 +38,11 @@ gulp.task('copy-assets', () => {
 });
 
 gulp.task('copy-data', () => {
-  let couponDataExists = fileExists('server/api/coupons-data.js');
+  /*let couponDataExists = fileExists('server/api/coupons-data.js');
   if (couponDataExists) return;
 
   let couponsData = fs.readFileSync('example-data/coupons-data.js');
-  fs.writeFileSync('server/api/coupons-data.js', couponsData);
+  fs.writeFileSync('server/api/coupons-data.js', couponsData);*/
 });
 
 gulp.task('build-browser', () => {
