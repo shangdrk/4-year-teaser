@@ -32,7 +32,7 @@ export class Greeting extends Component {
   }
 
   render() {
-    const { appData } = this.props;
+    const { appData, onSectionChange } = this.props;
     const { unwrapDisabled } = this.state;
     const unwrapBtnClass = classnames({
       'btn': true,
@@ -59,7 +59,7 @@ export class Greeting extends Component {
           {unwrapDisabled ?
             <button
               className="btn btn-success btn-block text-enter"
-              onClick={this.props.onSectionChange('Coupon', {username: 'morgana'})} >
+              onClick={this.props.onSectionChange('Quiz', {onSectionChange})} >
               take the quiz 🙈
             </button> : null}
         </main>

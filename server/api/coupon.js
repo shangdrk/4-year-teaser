@@ -1,5 +1,5 @@
 import { db } from '../database';
-import coupons from './coupons-data';
+import coupons from '../app-data/coupons';
 import * as util from './util';
 
 export async function build(username) {

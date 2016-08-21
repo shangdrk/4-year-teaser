@@ -8,6 +8,7 @@ import express from 'express';
 import path from 'path';
 
 import * as couponAPI from './api/coupon';
+import * as quizAPI from './api/quiz';
 import * as db from './database';
 import secrets from './secrets';
 
@@ -110,20 +111,22 @@ app.post('/api/app-data/greeting', (req, res) => {
   pack(promiseWrapper, res);
 });
 
-app.post('/api/app-data/quiz', (req, res) => {
-  const promiseWrapper = Promise.resolve(require('./app-data/quiz'));
-
-  pack(promiseWrapper, res);
-});
-
 app.post('/api/app-data/finale', (req, res) => {
   const promiseWrapper = Promise.resolve(require('./app-data/finale'));
 
   pack(promiseWrapper, res);
 });
 
+app.post('/api/quiz/data', (req, res) => {
+  pack(quizAPI.getQuestions(), res);
+});
+
 // Validity check and error handling before sending back response
 function pack(promise, res) {
+  if (!promise.then) {
+    promise = Promise.resolve(promise);
+  }
+
   return promise
     .then(result => {
       if (result == null) {

@@ -36,13 +36,6 @@ export function fetchGreetingText() {
   };
 }
 
-export function fetchQuizData() {
-  return dispatch => {
-    return fetchJson('/api/app-data/quiz')
-    .then(data => dispatch(receiveAppData(data)));
-  };
-}
-
 export function fetchFinaleText() {
   return dispatch => {
     return fetchJson('/api/app-data/finale')
