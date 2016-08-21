@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import text from '../assets/finale-template';
+import { connect } from 'react-redux';
 
-export default class Finale extends Component {
+import * as appDataActions from '../redux/modules/app-data';
+
+export class Finale extends Component {
   static propTypes = {
+    dispatch: React.PropTypes.func,
+    text: React.PropTypes.object,
     username: React.PropTypes.string.isRequired,
     onSectionChange: React.PropTypes.func.isRequired,
   };
@@ -11,8 +15,12 @@ export default class Finale extends Component {
     super();
   }
 
+  componentWillMount() {
+    this.props.dispatch(appDataActions.fetchFinaleText());
+  }
+
   render() {
-    const { onSectionChange, username } = this.props;
+    const { onSectionChange, username, text } = this.props;
     const repoUrl = 'https://github.com/shangdrk/4-year-teaser';
 
     return (
@@ -36,7 +44,7 @@ export default class Finale extends Component {
         <main id="finale-main">
           <p>{text.letterTop}</p>
           <p>如果你感兴趣的话，我把源代码（不包含 app data）都推到了 GitHub 上，可以直接看：</p>
-          <div style={{'text-align': 'center', 'margin-bottom': '30px'}}>
+          <div style={{'textAlign': 'center', 'marginBottom': '30px'}}>
             <a href={repoUrl} target=" _blank" className="Finale-better-font">{repoUrl}</a>
           </div>
           <p>{text.letterBot}</p>
@@ -46,3 +54,9 @@ export default class Finale extends Component {
     );
   }
 }
+
+export default connect(state => {
+  return {
+    text: state.appData.appData,
+  };
+})(Finale);

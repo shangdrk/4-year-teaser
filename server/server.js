@@ -104,6 +104,24 @@ app.post('/api/coupon/consume', (req, res) => {
   pack(couponAPI.requestConsumption(username, uniqueId), res);
 });
 
+app.post('/api/app-data/greeting', (req, res) => {
+  const promiseWrapper = Promise.resolve(require('./app-data/greeting'));
+
+  pack(promiseWrapper, res);
+});
+
+app.post('/api/app-data/quiz', (req, res) => {
+  const promiseWrapper = Promise.resolve(require('./app-data/quiz'));
+
+  pack(promiseWrapper, res);
+});
+
+app.post('/api/app-data/finale', (req, res) => {
+  const promiseWrapper = Promise.resolve(require('./app-data/finale'));
+
+  pack(promiseWrapper, res);
+});
+
 // Validity check and error handling before sending back response
 function pack(promise, res) {
   return promise

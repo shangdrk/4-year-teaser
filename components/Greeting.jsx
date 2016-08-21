@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
-import text from '../assets/greeting-template';
 
-export default class Greeting extends Component {
+import * as appDataActions from '../redux/modules/app-data';
+
+
+export class Greeting extends Component {
   static propTypes = {
+    dispatch: React.PropTypes.func,
+    appData: React.PropTypes.object,
     onSectionChange: React.PropTypes.func.isRequired,
   };
 
@@ -15,6 +20,10 @@ export default class Greeting extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.dispatch(appDataActions.fetchGreetingText());
+  }
+
   handleUnwrapClick = e => {
     e.preventDefault();
     if (!this.state.unwrapDisabled) {
@@ -23,6 +32,7 @@ export default class Greeting extends Component {
   }
 
   render() {
+    const { appData } = this.props;
     const { unwrapDisabled } = this.state;
     const unwrapBtnClass = classnames({
       'btn': true,
@@ -39,13 +49,13 @@ export default class Greeting extends Component {
           </div>
         </div>
         <main>
-          <p>{text.letterTop}</p>
+          <p>{appData.letter}</p>
           <button
             className={unwrapBtnClass}
             onClick={this.handleUnwrapClick} >
             now unwrap Derek's extra gift :)
           </button>
-          {unwrapDisabled ? <p className="text-enter">{text.teaser}</p> : null}
+          {unwrapDisabled ? <p className="text-enter">{appData.teaser}</p> : null}
           {unwrapDisabled ?
             <button
               className="btn btn-success btn-block text-enter"
@@ -57,3 +67,9 @@ export default class Greeting extends Component {
     );
   }
 }
+
+export default connect(state => {
+  return {
+    appData: state.appData.appData,
+  };
+})(Greeting);

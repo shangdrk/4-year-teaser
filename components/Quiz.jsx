@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class Quiz extends Component {
+import * as appDataActions from '../redux/modules/app-data';
+
+export class Quiz extends Component {
   static propTypes = {
+    dispatch: React.PropTypes.func,
+    quiz: React.PropTypes.any,
     onSectionChange: React.PropTypes.func.isRequired,
   };
 
@@ -9,7 +14,7 @@ export default class Quiz extends Component {
     super();
 
     this.state = {
-  
+      
     };
   }
 
@@ -19,3 +24,9 @@ export default class Quiz extends Component {
     );
   }
 }
+
+export default connect(state => {
+  return {
+    quiz: state.appData.appData,
+  };
+})(Quiz);

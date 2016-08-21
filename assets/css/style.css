@@ -40,6 +40,10 @@ p.text-enter {
   margin-bottom: 5px;
 }
 
+p.compact-para {
+  white-space: nowrap;
+}
+
 .navbar {
   background-color: #538291;
 }
