@@ -3,3 +3,5 @@ dump.rdb
 node_modules/
 secrets.js
 server/api/coupons-data.js
+server/app-data/
+assets/images/q*.jpg
