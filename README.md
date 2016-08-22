@@ -38,6 +38,10 @@ Now the website is available at `http://localhost:8000`.
 
 ## License
 
+The source code is licensed under the Mozilla Public License, v. 2.0. A copy of the MPL is included in the project ( See [LICENSE](./LICENSE) ).
+
+Copyright (c) 2016 Da Shang \<derekshang07@gmail.com>
+
 ## Todo List
 - `<Greeting />` should be used as a general-purpose component that connects two content components together
 - prompt user to confirm default username before building coupons
