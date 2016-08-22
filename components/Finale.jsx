@@ -28,7 +28,7 @@ export class Finale extends Component {
         <nav className="navbar navbar-default navbar-fixed-top">
           <div className="container-fluid">
             <div className="collapse navbar-collapse">
-              <span onClick={onSectionChange('Coupon', {username: 'leona'})}>
+              <span onClick={onSectionChange('Coupon', {username})}>
                 <a className="navbar-text">
                   <span className="glyphicon glyphicon-menu-left"></span>
                 </a>
