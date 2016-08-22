@@ -1,26 +1,18 @@
 {
   "name": "4-year-teaser",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A loving anniversary teaser website for Zora",
-  "main": "server.js",
-  "scripts": {
-    "start": "if-env NODE_ENV=prod && npm run start:prod || npm run start:dev",
-    "start:dev": "npm run build & nodemon server.js",
-    "start:prod": "node server.bundle.js",
-    "build:client": "webpack --progress --colors --watch",
-    "build:server": "webpack --config webpack.server.config.js --progress --colors --watch",
-    "build": "npm run build:client && npm run build:server"
-  },
+  "main": "build/server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shangdrk/4-year-teaser.git"
+    "url": "https://github.com/shangdrk/4-year-teaser.git"
   },
   "author": "Derek Shang",
-  "license": "ISC",
+  "license": "MPL-2.0",
   "bugs": {
     "url": "https://github.com/shangdrk/4-year-teaser/issues"
   },
-  "homepage": "https://github.com/shangdrk/4-year-teaser#readme",
+  "homepage": "https://github.com/shangdrk/4-year-teaser#4-year-teaser",
   "dependencies": {
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
@@ -53,7 +45,6 @@
     "gulp-babel": "^6.1.2",
     "gulp-plumber": "^1.1.0",
     "gulp-sourcemaps": "^1.6.0",
-    "nodemon": "^1.9.2",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
   }
